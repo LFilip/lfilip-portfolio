@@ -1,25 +1,36 @@
-import { render, screen } from '@testing-library/react'
-import Home from './page'
+import { render, screen } from "@testing-library/react";
+import Home from "./page";
 
-// Mock next/image since it requires Next.js server context
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: ({ priority, ...props }: { priority?: boolean } & React.ImgHTMLAttributes<HTMLImageElement>) => {
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} data-priority={priority} alt={props.alt} />
-  },
-}))
+describe("Home Page", () => {
+  it("renders the name heading", () => {
+    render(<Home />);
 
-describe('Home Page', () => {
-  it('renders the page heading', () => {
-    render(<Home />)
+    expect(
+      screen.getByRole("heading", { level: 1, name: /Louis J. Filip/i })
+    ).toBeInTheDocument();
+  });
 
-    expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
-  })
+  it("renders the email link", () => {
+    render(<Home />);
 
-  it('renders the documentation link', () => {
-    render(<Home />)
+    expect(
+      screen.getByRole("link", { name: /louisfilip@gmail.com/i })
+    ).toBeInTheDocument();
+  });
 
-    expect(screen.getByRole('link', { name: /documentation/i })).toBeInTheDocument()
-  })
-})
+  it("renders experience section", () => {
+    render(<Home />);
+
+    expect(
+      screen.getByRole("heading", { level: 2, name: /Experience/i })
+    ).toBeInTheDocument();
+  });
+
+  it("renders skills section", () => {
+    render(<Home />);
+
+    expect(
+      screen.getByRole("heading", { level: 2, name: /Skills/i })
+    ).toBeInTheDocument();
+  });
+});

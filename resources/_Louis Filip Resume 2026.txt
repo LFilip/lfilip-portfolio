@@ -1,0 +1,101 @@
+﻿Louis J. Filip
+802 Trotman Ave
+Madison, AL 35758
+(256) 508-6304
+louisfilip@gmail.com
+        
+
+
+Key Skills
+	Typescript, DO-178C, Unit Testing, NodeJS, C++, Github, UNIX, Object Oriented Design, Design Patterns, Agile Development, Embedded Development, Perl, RTOS, Docker, React, Full Stack Development, Terraform, AWS, Frontend Development, DevOps, Java, Security+, Linux+, bash scripting
+	
+
+	
+
+	Skills-
+Certificates
+	* Computer Science Skills:  Design Patterns, Object Oriented Programming, GUI implementation, UX implementation, Front-end Web Development, Android Development, Backup Scrum Team Leader, Interim Team Lead
+* CompTIA Linux+ Certification
+* CompTIA Security+ Certification
+* CompTIA Cloud+ Certification
+* Inactive Top Secret Clearance
+* Operating Systems: MS Windows; Macintosh OS; UNIX, Linux, RHEL, VxWork
+* Computer Languages: React, Typescript/Javascript, CSS, Java, Python, HTML, C++, LUA, NodeJS, Perl, Docker, Kubernetes, Terraform, AWS
+* Major Software Packages: Visual Studio, VS Code, github, UNIX, Atom, Netbeans, IntelliJ, DI2E
+	Work
+Experience
+
+
+	May 2024  – Oct 2025        Booz Allen Hamilton Inc,        Huntsville, AL
+Mid-Level Full Stack Developer
+* Collaborate with a cross-functional team to develop and maintain secure government applications.
+* Design, develop, and maintain multiple frontend applications using React, Next.js, and TypeScript, ensuring efficient and secure performance.
+* Build and optimize backend services and APIs using NestJS and TypeScript to support frontend functionality and integrations.
+* Implement and maintain comprehensive unit tests to ensure code reliability and integrity, improving the overall quality of the software.
+February 2023  – May 2024        Iva’al Solutions Inc.        (Remote) Huntsville, AL
+Mid-Level Full Stack Developer (Interim Team Lead)
+* Engineered a dynamic user dashboard using Figma for UI design, React for the frontend, and TypeScript for safe API consumption, improving data visualization and user experience.
+* Revamped and extended backend APIs using TypeScript within AWS Lambda functions, ensuring efficient data serving to multiple microservices and improving system responsiveness.
+* Directed a small development team in integrating a new microservice with a third-party system using React, Typescript and NodeJS enhancing system interoperability and functionality.
+* Leveraged Terraform for infrastructure as code, ensuring consistency and scalability of cloud resources.
+* Engineered and sustained multiple Python scripts on AWS Lambda, providing critical support to cross-functional teams and enhancing project collaboration.
+February 2022  – January 2023        Blue Halo          Huntsville, AL
+Full Stack Developer
+* Contributed to the design and implementation of a 3D browser-based map, updated in real-time with backend microservice data, utilizing React, TypeScript, and Node.js for a seamless user interface.
+* Create developer tools to utilize the frontend to edit and transform data in the database through alternative methods to facilitate enhanced development experience and speed.
+* Developed robust backend APIs to facilitate seamless interactions among microservices, employing SQL for data management and Node.js for server-side logic.
+* Integral part of team that developed a functional design system in React and Typescript to give front-end components uniformity utilizing the molecular design system method
+* Develop and Maintain Gitlab CI-CD process for microservices
+* Assist in creating Linux install scripts to get new developers up and running quickly
+* Top Secret Security Clearance achieved
+April 2021 – February 2022        A.I. Solutions         Huntsville, AL
+Senior Software Engineer
+* Product Owner for Major System Component in a Classified Secured Building
+* Maintain and Document issues for Legacy Radar systems in PERL and C++
+* Developed and implemented custom Linux scripts, scheduled via Cron, to automate system tasks, resulting in a 20% increase in process efficiency
+* Completed CompTIA Security+ and Linux+ certifications 6 months ahead of the 1 year deadline
+* Data Transfer Agent entrusted to transfer high security data between systems
+February 2019 – April 2021        SAIC         Huntsville, AL
+Software Engineer
+* Lead the team and Present for Team Lead when needed
+* Develop C++ Embedded software application in accordance with DO-178C
+* Install, update and test on hardware in the loop Linux VM based device
+* Correct critical errors in production code in a Real Time OS Linux environment
+* Rewrote C++ Standard Template Library function printf to be deterministic to remove possible memory leak
+* Create documentation for software planning phase
+
+
+Feb 2008 – Aug 2018        Lifetouch National School Studios        Huntsville, AL
+Lead Photographer
+* Maintain computer and photography equipment for local territory
+* Analyze school needs to correctly create a photography plan
+* Train new employees
+* Manage complex event logistics, client relationships and post-production workflows
+* Developed communication, creative problem solving and independent decision-making that continue to inform my software engineering work today
+	
+
+Education
+	The University of Alabama in Huntsville        Huntsville, AL
+Bachelor of Science in Computer Science
+Graduation date:  December 2018
+* Major GPA: 3.54
+* Relevant Coursework:  Advanced C++ w/ Object Oriented Design, Mobile Computing Applications, Network Security, Object Oriented Design C++, Object Oriented Design Java, Team Software Design, Technical Writing
+* Papers and Project Experience: “Student Information Visualizer Uplink(React/Node)”, “Digital One Celled Organisms Simulation(C++)”, “GoodReads clone (Java)”, “Slideshow Creator Software(Java)”
+	
+
+
+
+References         Tim McIntire, Senior Software Engineer
+PeopleTec Inc. (Worked together at Blue Halo)
+1613 Clinton Ave
+Huntsville AL 35801
+(256) 679-3022
+tmc1618@gmail.com
+
+
+Michael Saki, Senior Software Engineer
+Iva’al Solutions Inc.
+3819 Joe Rawlings Rd,
+Cookville, TN
+(256) 337-5990
+sakimichael@yahoo.com
