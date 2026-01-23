@@ -4,10 +4,23 @@ export interface Project {
   techStack: string[];
   github?: string;
   liveUrl?: string;
+  demoPath?: string;
   highlights?: string[];
 }
 
 export const projects: Project[] = [
+  {
+    title: "LocalPet - Virtual Pet Game",
+    description:
+      "Interactive virtual pet game with real-time stat management. Features a game loop, localStorage persistence, and animated transitions.",
+    techStack: ["React 19", "TypeScript", "Zustand", "Tailwind CSS"],
+    demoPath: "/projects/pet",
+    highlights: [
+      "Real-time game loop with stat degradation",
+      "Zustand state management with localStorage persistence",
+      "Animated diagonal wipe transition effect",
+    ],
+  },
   {
     title: "Portfolio Website",
     description:

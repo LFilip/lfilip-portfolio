@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Project } from "../data/projects";
 
 interface ProjectCardProps {
@@ -10,6 +11,34 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       <div className="flex items-start justify-between mb-3">
         <h3 className="text-lg font-semibold text-zinc-100">{project.title}</h3>
         <div className="flex gap-2">
+          {project.demoPath && (
+            <Link
+              href={project.demoPath}
+              className="text-emerald-400 hover:text-emerald-300 transition-colors"
+              aria-label="Try demo"
+              title="Try Demo"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </Link>
+          )}
           {project.github && (
             <a
               href={project.github}
