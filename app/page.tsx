@@ -2,11 +2,13 @@ import Header from "./components/Header";
 import Section from "./components/Section";
 import ExperienceCard from "./components/ExperienceCard";
 import SkillTag from "./components/SkillTag";
+import PageTracker from "./components/PageTracker";
 import { experiences, skills, certifications, education } from "./data/resume";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-zinc-950">
+      <PageTracker pageId="about" />
       <main className="mx-auto max-w-4xl px-6 py-16 sm:px-8 lg:px-12">
         <Header />
 
