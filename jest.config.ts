@@ -14,6 +14,12 @@ const config: Config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
+  // Collect coverage from ALL source files, not just imported ones
+  collectCoverageFrom: [
+    'app/**/*.{ts,tsx}',
+    '!app/**/*.test.{ts,tsx}',  // Exclude test files
+    '!app/**/*.d.ts',            // Exclude type declaration files
+  ],
 }
 
 export default createJestConfig(config)
