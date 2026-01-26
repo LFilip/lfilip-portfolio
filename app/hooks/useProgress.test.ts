@@ -30,12 +30,13 @@ describe("useProgress Hook", () => {
     const { result } = renderHook(() => useProgress());
 
     expect(result.current.clickedProjects).toEqual([]);
-    expect(result.current.totalProjects).toBe(6);
+    expect(result.current.totalProjects).toBe(7);
     expect(result.current.progress).toBe(0);
   });
 
-  it("should have 6 tracked projects", () => {
-    expect(Object.keys(TRACKED_PROJECTS)).toHaveLength(6);
+  it("should have 7 tracked projects", () => {
+    expect(Object.keys(TRACKED_PROJECTS)).toHaveLength(7);
+    expect(TRACKED_PROJECTS["block-miner"]).toBeDefined();
     expect(TRACKED_PROJECTS["package-sorter"]).toBeDefined();
     expect(TRACKED_PROJECTS["localpet-virtual-pet-game"]).toBeDefined();
     expect(TRACKED_PROJECTS["portfolio-website"]).toBeDefined();

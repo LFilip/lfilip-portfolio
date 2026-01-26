@@ -11,11 +11,25 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "block-miner",
+    title: "Block Miner",
+    description:
+      "Minecraft-style clicker game. Mine blocks, earn coins, upgrade your pickaxe and unlock auto-miners. Simple tap/click controls for mobile and desktop.",
+    techStack: ["React 19", "TypeScript", "Next.js", "CSS Animations"],
+    demoPath: "/projects/block-miner",
+    highlights: [
+      "Idle/clicker game mechanics with upgrades",
+      "Pixel art aesthetic with satisfying animations",
+      "Mobile-friendly tap controls",
+    ],
+  },
+  {
     id: "package-sorter",
     title: "Package Sorting System",
     description:
       "Robotic arm dispatch controller that sorts packages into STANDARD, SPECIAL, or REJECTED stacks based on dimensions and mass.",
     techStack: ["React 19", "TypeScript", "Next.js", "Tailwind CSS"],
+    github: "https://github.com/LFilip/lfilip-portfolio/blob/main/app/projects/package-sorter/README.md",
     demoPath: "/projects/package-sorter",
     highlights: [
       "Clean sorting algorithm with full test coverage",

@@ -6,6 +6,7 @@ const STORAGE_KEY = "portfolio-clicked-projects";
 const SYNC_EVENT = "portfolio-progress-sync";
 
 export const TRACKED_PROJECTS = {
+  "block-miner": { label: "Block Miner" },
   "package-sorter": { label: "Package Sorter" },
   "localpet-virtual-pet-game": { label: "LocalPet" },
   "portfolio-website": { label: "Portfolio" },
