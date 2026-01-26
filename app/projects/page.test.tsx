@@ -1,15 +1,15 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import ProjectsPage from "./page";
 
-const mockMarkClicked = jest.fn();
+const mockToggleClicked = jest.fn();
 
 // Mock useProgress hook
 jest.mock("../hooks/useProgress", () => ({
   useProgress: () => ({
     clickedProjects: [],
-    totalProjects: 5,
+    totalProjects: 6,
     progress: 0,
-    markClicked: mockMarkClicked,
+    toggleClicked: mockToggleClicked,
     resetProgress: jest.fn(),
     isHydrated: true,
   }),
@@ -18,7 +18,7 @@ jest.mock("../hooks/useProgress", () => ({
 
 describe("ProjectsPage", () => {
   beforeEach(() => {
-    mockMarkClicked.mockClear();
+    mockToggleClicked.mockClear();
   });
 
   it("should render the page heading", () => {
@@ -41,7 +41,7 @@ describe("ProjectsPage", () => {
     render(<ProjectsPage />);
 
     // Check for at least one project
-    expect(screen.getByText("LocalPet - Virtual Pet Game")).toBeInTheDocument();
+    expect(screen.getByText("Package Sorting System")).toBeInTheDocument();
   });
 
   it("should render multiple projects", () => {
@@ -53,9 +53,10 @@ describe("ProjectsPage", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render all 5 projects", () => {
+  it("should render all 6 projects", () => {
     render(<ProjectsPage />);
 
+    expect(screen.getByText("Package Sorting System")).toBeInTheDocument();
     expect(screen.getByText("LocalPet - Virtual Pet Game")).toBeInTheDocument();
     expect(screen.getByText("Portfolio Website")).toBeInTheDocument();
     expect(
@@ -65,13 +66,13 @@ describe("ProjectsPage", () => {
     expect(screen.getByText("3D Browser-Based Map")).toBeInTheDocument();
   });
 
-  it("should call markClicked when a project card is clicked", () => {
+  it("should call toggleClicked when a project card is clicked", () => {
     render(<ProjectsPage />);
 
     const buttons = screen.getAllByRole("button");
     fireEvent.click(buttons[0]);
 
-    expect(mockMarkClicked).toHaveBeenCalledWith("localpet-virtual-pet-game");
+    expect(mockToggleClicked).toHaveBeenCalledWith("package-sorter");
   });
 });
 

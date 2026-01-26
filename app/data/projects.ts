@@ -11,6 +11,19 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "package-sorter",
+    title: "Package Sorting System",
+    description:
+      "Robotic arm dispatch controller that sorts packages into STANDARD, SPECIAL, or REJECTED stacks based on dimensions and mass.",
+    techStack: ["React 19", "TypeScript", "Next.js", "Tailwind CSS"],
+    demoPath: "/projects/package-sorter",
+    highlights: [
+      "Clean sorting algorithm with full test coverage",
+      "Real-time classification as you adjust sliders",
+      "Factory dashboard UI with package history",
+    ],
+  },
+  {
     id: "localpet-virtual-pet-game",
     title: "LocalPet - Virtual Pet Game",
     description:

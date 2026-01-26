@@ -5,7 +5,7 @@ import { projects } from "../data/projects";
 import { useProgress, ProjectId } from "../hooks/useProgress";
 
 export default function ProjectsPage() {
-  const { clickedProjects, markClicked } = useProgress();
+  const { clickedProjects, toggleClicked } = useProgress();
 
   return (
     <div className="min-h-screen bg-zinc-950">
@@ -24,7 +24,7 @@ export default function ProjectsPage() {
               key={project.id}
               project={project}
               isClicked={clickedProjects.includes(project.id as ProjectId)}
-              onProjectClick={() => markClicked(project.id as ProjectId)}
+              onProjectClick={() => toggleClicked(project.id as ProjectId)}
             />
           ))}
         </div>

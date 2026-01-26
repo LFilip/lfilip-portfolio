@@ -3,8 +3,10 @@
 import { useState, useCallback, useEffect } from "react";
 
 const STORAGE_KEY = "portfolio-clicked-projects";
+const SYNC_EVENT = "portfolio-progress-sync";
 
 export const TRACKED_PROJECTS = {
+  "package-sorter": { label: "Package Sorter" },
   "localpet-virtual-pet-game": { label: "LocalPet" },
   "portfolio-website": { label: "Portfolio" },
   "government-application-dashboard": { label: "Gov Dashboard" },
@@ -30,24 +32,34 @@ function getStoredProjects(): ProjectId[] {
   }
 }
 
+function broadcastSync() {
+  // Defer to avoid setState during render
+  setTimeout(() => window.dispatchEvent(new CustomEvent(SYNC_EVENT)), 0);
+}
+
 export function useProgress() {
   const [clickedProjects, setClickedProjects] = useState<ProjectId[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    // Loading client-only data after hydration is a legitimate pattern
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsHydrated(true);
     setClickedProjects(getStoredProjects());
+
+    const handleSync = () => {
+      setClickedProjects(getStoredProjects());
+    };
+
+    window.addEventListener(SYNC_EVENT, handleSync);
+    return () => window.removeEventListener(SYNC_EVENT, handleSync);
   }, []);
 
-  const markClicked = useCallback((projectId: ProjectId) => {
+  const toggleClicked = useCallback((projectId: ProjectId) => {
     setClickedProjects((current) => {
-      if (current.includes(projectId)) {
-        return current;
-      }
-      const updated = [...current, projectId];
+      const updated = current.includes(projectId)
+        ? current.filter((id) => id !== projectId)
+        : [...current, projectId];
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      broadcastSync();
       return updated;
     });
   }, []);
@@ -55,6 +67,7 @@ export function useProgress() {
   const resetProgress = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
     setClickedProjects([]);
+    broadcastSync();
   }, []);
 
   const totalProjects = Object.keys(TRACKED_PROJECTS).length;
@@ -68,5 +81,5 @@ export function useProgress() {
     progress,
   };
 
-  return { ...state, markClicked, resetProgress, isHydrated };
+  return { ...state, toggleClicked, resetProgress, isHydrated };
 }

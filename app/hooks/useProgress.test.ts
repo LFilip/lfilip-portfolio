@@ -30,12 +30,13 @@ describe("useProgress Hook", () => {
     const { result } = renderHook(() => useProgress());
 
     expect(result.current.clickedProjects).toEqual([]);
-    expect(result.current.totalProjects).toBe(5);
+    expect(result.current.totalProjects).toBe(6);
     expect(result.current.progress).toBe(0);
   });
 
-  it("should have 5 tracked projects", () => {
-    expect(Object.keys(TRACKED_PROJECTS)).toHaveLength(5);
+  it("should have 6 tracked projects", () => {
+    expect(Object.keys(TRACKED_PROJECTS)).toHaveLength(6);
+    expect(TRACKED_PROJECTS["package-sorter"]).toBeDefined();
     expect(TRACKED_PROJECTS["localpet-virtual-pet-game"]).toBeDefined();
     expect(TRACKED_PROJECTS["portfolio-website"]).toBeDefined();
     expect(TRACKED_PROJECTS["government-application-dashboard"]).toBeDefined();
@@ -43,71 +44,58 @@ describe("useProgress Hook", () => {
     expect(TRACKED_PROJECTS["3d-browser-based-map"]).toBeDefined();
   });
 
-  it("should mark a project as clicked", () => {
+  it("should toggle a project as clicked", () => {
     const { result } = renderHook(() => useProgress());
 
     act(() => {
-      result.current.markClicked("localpet-virtual-pet-game");
+      result.current.toggleClicked("localpet-virtual-pet-game");
     });
 
     expect(result.current.clickedProjects).toContain(
       "localpet-virtual-pet-game"
     );
-    expect(result.current.progress).toBe(20);
+    expect(result.current.progress).toBe(17);
   });
 
-  it("should not duplicate clicked projects", () => {
+  it("should toggle off a clicked project", () => {
     const { result } = renderHook(() => useProgress());
 
     act(() => {
-      result.current.markClicked("localpet-virtual-pet-game");
+      result.current.toggleClicked("localpet-virtual-pet-game");
     });
+    expect(result.current.clickedProjects).toContain("localpet-virtual-pet-game");
 
     act(() => {
-      result.current.markClicked("localpet-virtual-pet-game");
+      result.current.toggleClicked("localpet-virtual-pet-game");
     });
-
-    expect(
-      result.current.clickedProjects.filter(
-        (p) => p === "localpet-virtual-pet-game"
-      )
-    ).toHaveLength(1);
+    expect(result.current.clickedProjects).not.toContain("localpet-virtual-pet-game");
+    expect(result.current.progress).toBe(0);
   });
 
   it("should calculate progress correctly", () => {
     const { result } = renderHook(() => useProgress());
 
     act(() => {
-      result.current.markClicked("localpet-virtual-pet-game");
+      result.current.toggleClicked("localpet-virtual-pet-game");
     });
-    expect(result.current.progress).toBe(20);
+    expect(result.current.progress).toBe(17);
 
     act(() => {
-      result.current.markClicked("portfolio-website");
+      result.current.toggleClicked("portfolio-website");
     });
-    expect(result.current.progress).toBe(40);
+    expect(result.current.progress).toBe(33);
 
     act(() => {
-      result.current.markClicked("government-application-dashboard");
+      result.current.toggleClicked("government-application-dashboard");
     });
-    expect(result.current.progress).toBe(60);
-
-    act(() => {
-      result.current.markClicked("user-analytics-dashboard");
-    });
-    expect(result.current.progress).toBe(80);
-
-    act(() => {
-      result.current.markClicked("3d-browser-based-map");
-    });
-    expect(result.current.progress).toBe(100);
+    expect(result.current.progress).toBe(50);
   });
 
   it("should persist clicked projects to localStorage", () => {
     const { result } = renderHook(() => useProgress());
 
     act(() => {
-      result.current.markClicked("portfolio-website");
+      result.current.toggleClicked("portfolio-website");
     });
 
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
@@ -120,8 +108,8 @@ describe("useProgress Hook", () => {
     const { result } = renderHook(() => useProgress());
 
     act(() => {
-      result.current.markClicked("localpet-virtual-pet-game");
-      result.current.markClicked("portfolio-website");
+      result.current.toggleClicked("localpet-virtual-pet-game");
+      result.current.toggleClicked("portfolio-website");
     });
 
     expect(result.current.clickedProjects).toHaveLength(2);
@@ -146,8 +134,7 @@ describe("useProgress Hook", () => {
 
     const { result } = renderHook(() => useProgress());
 
-    // After hydration, should have the stored projects
     expect(result.current.clickedProjects).toEqual(storedProjects);
-    expect(result.current.progress).toBe(40);
+    expect(result.current.progress).toBe(33);
   });
 });
