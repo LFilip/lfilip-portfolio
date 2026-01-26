@@ -2,63 +2,71 @@
 
 import { useState, useCallback, useEffect } from "react";
 
-const STORAGE_KEY = "portfolio-visited-pages";
+const STORAGE_KEY = "portfolio-clicked-projects";
 
-export const TRACKED_PAGES = {
-  about: { path: "/", label: "About" },
-  projects: { path: "/projects", label: "Projects" },
+export const TRACKED_PROJECTS = {
+  "localpet-virtual-pet-game": { label: "LocalPet" },
+  "portfolio-website": { label: "Portfolio" },
+  "government-application-dashboard": { label: "Gov Dashboard" },
+  "user-analytics-dashboard": { label: "Analytics" },
+  "3d-browser-based-map": { label: "3D Map" },
 } as const;
 
-export type PageId = keyof typeof TRACKED_PAGES;
+export type ProjectId = keyof typeof TRACKED_PROJECTS;
 
 interface ProgressState {
-  visitedPages: PageId[];
-  totalPages: number;
+  clickedProjects: ProjectId[];
+  totalProjects: number;
   progress: number;
 }
 
-function getStoredPages(): PageId[] {
+function getStoredProjects(): ProjectId[] {
   if (typeof window === "undefined") return [];
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? (JSON.parse(stored) as PageId[]) : [];
+    return stored ? (JSON.parse(stored) as ProjectId[]) : [];
   } catch {
     return [];
   }
 }
 
 export function useProgress() {
-  const [visitedPages, setVisitedPages] = useState<PageId[]>([]);
+  const [clickedProjects, setClickedProjects] = useState<ProjectId[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
     // Loading client-only data after hydration is a legitimate pattern
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsHydrated(true);
-    setVisitedPages(getStoredPages());
+    setClickedProjects(getStoredProjects());
   }, []);
 
-  const markVisited = useCallback((pageId: PageId) => {
-    setVisitedPages((current) => {
-      if (current.includes(pageId)) {
+  const markClicked = useCallback((projectId: ProjectId) => {
+    setClickedProjects((current) => {
+      if (current.includes(projectId)) {
         return current;
       }
-      const updated = [...current, pageId];
+      const updated = [...current, projectId];
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       return updated;
     });
   }, []);
 
-  const totalPages = Object.keys(TRACKED_PAGES).length;
+  const resetProgress = useCallback(() => {
+    localStorage.removeItem(STORAGE_KEY);
+    setClickedProjects([]);
+  }, []);
+
+  const totalProjects = Object.keys(TRACKED_PROJECTS).length;
   const progress = isHydrated
-    ? Math.round((visitedPages.length / totalPages) * 100)
+    ? Math.round((clickedProjects.length / totalProjects) * 100)
     : 0;
 
   const state: ProgressState = {
-    visitedPages: isHydrated ? visitedPages : [],
-    totalPages,
+    clickedProjects: isHydrated ? clickedProjects : [],
+    totalProjects,
     progress,
   };
 
-  return { ...state, markVisited, isHydrated };
+  return { ...state, markClicked, resetProgress, isHydrated };
 }

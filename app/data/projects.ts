@@ -1,4 +1,5 @@
 export interface Project {
+  id: string;
   title: string;
   description: string;
   techStack: string[];
@@ -10,6 +11,7 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "localpet-virtual-pet-game",
     title: "LocalPet - Virtual Pet Game",
     description:
       "Interactive virtual pet game with real-time stat management. Features a game loop, localStorage persistence, and animated transitions.",
@@ -22,6 +24,7 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "portfolio-website",
     title: "Portfolio Website",
     description:
       "Personal portfolio site built with Next.js 16 and React 19. Features a dark dev aesthetic, page-visit progress tracking, and responsive design.",
@@ -34,6 +37,7 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "government-application-dashboard",
     title: "Government Application Dashboard",
     description:
       "Secure dashboard for government applications with real-time data visualization and role-based access control.",
@@ -45,6 +49,7 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "user-analytics-dashboard",
     title: "User Analytics Dashboard",
     description:
       "Dynamic dashboard for tracking user engagement and analytics. Designed in Figma and built with a focus on data visualization.",
@@ -56,6 +61,7 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "3d-browser-based-map",
     title: "3D Browser-Based Map",
     description:
       "Interactive 3D mapping application with real-time backend data integration for military applications.",

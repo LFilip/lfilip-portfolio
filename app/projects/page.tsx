@@ -1,11 +1,14 @@
+"use client";
+
 import ProjectCard from "../components/ProjectCard";
-import PageTracker from "../components/PageTracker";
 import { projects } from "../data/projects";
+import { useProgress, ProjectId } from "../hooks/useProgress";
 
 export default function ProjectsPage() {
+  const { clickedProjects, markClicked } = useProgress();
+
   return (
     <div className="min-h-screen bg-zinc-950">
-      <PageTracker pageId="projects" />
       <main className="mx-auto max-w-4xl px-6 py-16 sm:px-8 lg:px-12">
         <header className="mb-12">
           <h1 className="text-4xl font-bold text-zinc-100 mb-4">Projects</h1>
@@ -16,8 +19,13 @@ export default function ProjectsPage() {
         </header>
 
         <div className="grid gap-6">
-          {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} />
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              isClicked={clickedProjects.includes(project.id as ProjectId)}
+              onProjectClick={() => markClicked(project.id as ProjectId)}
+            />
           ))}
         </div>
       </main>
