@@ -1,8 +1,11 @@
+export type ProjectCategory = "game" | "demo" | "professional";
+
 export interface Project {
   id: string;
   title: string;
   description: string;
   techStack: string[];
+  category: ProjectCategory;
   github?: string;
   liveUrl?: string;
   demoPath?: string;
@@ -16,6 +19,8 @@ export const projects: Project[] = [
     description:
       "Minecraft-style clicker game. Mine blocks, earn coins, upgrade your pickaxe and unlock auto-miners. Simple tap/click controls for mobile and desktop.",
     techStack: ["React 19", "TypeScript", "Next.js", "CSS Animations"],
+    category: "game",
+    github: "https://github.com/LFilip/lfilip-portfolio/blob/main/app/projects/block-miner/README.md",
     demoPath: "/projects/block-miner",
     highlights: [
       "Idle/clicker game mechanics with upgrades",
@@ -29,6 +34,7 @@ export const projects: Project[] = [
     description:
       "Robotic arm dispatch controller that sorts packages into STANDARD, SPECIAL, or REJECTED stacks based on dimensions and mass.",
     techStack: ["React 19", "TypeScript", "Next.js", "Tailwind CSS"],
+    category: "demo",
     github: "https://github.com/LFilip/lfilip-portfolio/blob/main/app/projects/package-sorter/README.md",
     demoPath: "/projects/package-sorter",
     highlights: [
@@ -43,6 +49,7 @@ export const projects: Project[] = [
     description:
       "Interactive virtual pet game with real-time stat management. Features a game loop, localStorage persistence, and animated transitions.",
     techStack: ["React 19", "TypeScript", "Zustand", "Tailwind CSS"],
+    category: "game",
     demoPath: "/projects/pet",
     highlights: [
       "Real-time game loop with stat degradation",
@@ -56,6 +63,7 @@ export const projects: Project[] = [
     description:
       "Personal portfolio site built with Next.js 16 and React 19. Features a dark dev aesthetic, page-visit progress tracking, and responsive design.",
     techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+    category: "professional",
     github: "https://github.com/lfilip/portfolio",
     highlights: [
       "App Router with server and client components",
@@ -69,6 +77,7 @@ export const projects: Project[] = [
     description:
       "Secure dashboard for government applications with real-time data visualization and role-based access control.",
     techStack: ["React", "TypeScript", "NestJS", "PostgreSQL"],
+    category: "professional",
     highlights: [
       "Built with cross-functional team",
       "Comprehensive unit test coverage",
@@ -81,6 +90,7 @@ export const projects: Project[] = [
     description:
       "Dynamic dashboard for tracking user engagement and analytics. Designed in Figma and built with a focus on data visualization.",
     techStack: ["React", "TypeScript", "AWS Lambda", "Terraform"],
+    category: "professional",
     highlights: [
       "Designed UI/UX in Figma",
       "Serverless backend architecture",
@@ -93,6 +103,7 @@ export const projects: Project[] = [
     description:
       "Interactive 3D mapping application with real-time backend data integration for military applications.",
     techStack: ["React", "Three.js", "TypeScript", "Microservices"],
+    category: "professional",
     highlights: [
       "Real-time data streaming",
       "Component design system using molecular design",

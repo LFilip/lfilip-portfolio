@@ -7,7 +7,7 @@ const mockToggleClicked = jest.fn();
 jest.mock("../hooks/useProgress", () => ({
   useProgress: () => ({
     clickedProjects: [],
-    totalProjects: 6,
+    totalProjects: 7,
     progress: 0,
     toggleClicked: mockToggleClicked,
     resetProgress: jest.fn(),
@@ -41,7 +41,7 @@ describe("ProjectsPage", () => {
     render(<ProjectsPage />);
 
     // Check for at least one project
-    expect(screen.getByText("Package Sorting System")).toBeInTheDocument();
+    expect(screen.getByText("Block Miner")).toBeInTheDocument();
   });
 
   it("should render multiple projects", () => {
@@ -53,9 +53,10 @@ describe("ProjectsPage", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render all 6 projects", () => {
+  it("should render all 7 projects", () => {
     render(<ProjectsPage />);
 
+    expect(screen.getByText("Block Miner")).toBeInTheDocument();
     expect(screen.getByText("Package Sorting System")).toBeInTheDocument();
     expect(screen.getByText("LocalPet - Virtual Pet Game")).toBeInTheDocument();
     expect(screen.getByText("Portfolio Website")).toBeInTheDocument();
@@ -69,23 +70,48 @@ describe("ProjectsPage", () => {
   it("should call toggleClicked when a project card is clicked", () => {
     render(<ProjectsPage />);
 
-    const buttons = screen.getAllByRole("button");
-    fireEvent.click(buttons[0]);
+    // First 4 buttons are filters, project cards come after
+    const projectCards = screen.getAllByRole("button", { pressed: false });
+    const blockMinerCard = projectCards.find((btn) =>
+      btn.textContent?.includes("Block Miner")
+    );
+    if (blockMinerCard) fireEvent.click(blockMinerCard);
 
-    expect(mockToggleClicked).toHaveBeenCalledWith("package-sorter");
+    expect(mockToggleClicked).toHaveBeenCalledWith("block-miner");
+  });
+
+  it("should render filter buttons", () => {
+    render(<ProjectsPage />);
+
+    expect(screen.getByRole("button", { name: /All/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Professional/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Games/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Demos/i })).toBeInTheDocument();
+  });
+
+  it("should filter projects when category is clicked", () => {
+    render(<ProjectsPage />);
+
+    // Click Games filter
+    fireEvent.click(screen.getByRole("button", { name: /Games/i }));
+
+    // Should show games
+    expect(screen.getByText("Block Miner")).toBeInTheDocument();
+    expect(screen.getByText("LocalPet - Virtual Pet Game")).toBeInTheDocument();
+
+    // Should not show professional projects
+    expect(screen.queryByText("Government Application Dashboard")).not.toBeInTheDocument();
   });
 });
 
 describe("ProjectsPage integration", () => {
   it("should pass isClicked and onProjectClick props to ProjectCard", () => {
-    // This test verifies the integration by checking that the page renders
-    // project cards with the correct props from useProgress
     render(<ProjectsPage />);
 
-    // All cards should have aria-pressed attribute
-    const buttons = screen.getAllByRole("button");
-    buttons.forEach((button) => {
-      expect(button).toHaveAttribute("aria-pressed");
-    });
+    // Project cards have aria-pressed attribute
+    const projectCards = screen.getAllByRole("button").filter((btn) =>
+      btn.hasAttribute("aria-pressed")
+    );
+    expect(projectCards.length).toBe(7);
   });
 });
