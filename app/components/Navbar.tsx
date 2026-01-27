@@ -49,6 +49,7 @@ export default function Navbar() {
             className="sm:hidden p-2 text-zinc-400 hover:text-zinc-100"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
+            aria-expanded={mobileMenuOpen}
           >
             <svg
               className="w-5 h-5"
