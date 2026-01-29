@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
+import { Accordion } from '@/app/components/Accordion';
 import { MetricCard } from './components/MetricCard';
 import { TimeRangeSelector } from './components/TimeRangeSelector';
 import { getMetricsForTimeRange } from './data/mockMetrics';
@@ -91,6 +92,104 @@ export default function DashboardDemoPage() {
           <p className="text-zinc-500 text-sm">
             This is a demo dashboard with mock data. Values update based on the selected time range.
           </p>
+        </div>
+
+        {/* About Section - Accordions */}
+        <div className="mt-12 max-w-2xl mx-auto space-y-3">
+          <Accordion title="Dashboard Features">
+            <div className="text-sm text-zinc-400 space-y-3">
+              <ul className="space-y-2">
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                  <span><strong className="text-zinc-300">Time Range Selector</strong> - Switch between week, month, and year views</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                  <span><strong className="text-zinc-300">Metric Cards</strong> - Display key stats with trend indicators and sparklines</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                  <span><strong className="text-zinc-300">Refresh Animation</strong> - Loading state with smooth opacity transition</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                  <span><strong className="text-zinc-300">Responsive Grid</strong> - Adapts from 1 to 3 columns based on screen size</span>
+                </li>
+              </ul>
+            </div>
+          </Accordion>
+
+          <Accordion title="Component Breakdown">
+            <div className="space-y-4 text-sm">
+              <div className="grid gap-3">
+                <div className="bg-zinc-900 rounded p-3">
+                  <div className="text-zinc-300 font-medium">MetricCard</div>
+                  <div className="text-zinc-500 text-xs mt-1">Displays value, trend percentage, status badge, and sparkline chart</div>
+                </div>
+                <div className="bg-zinc-900 rounded p-3">
+                  <div className="text-zinc-300 font-medium">Sparkline</div>
+                  <div className="text-zinc-500 text-xs mt-1">SVG-based mini chart showing data trends over time</div>
+                </div>
+                <div className="bg-zinc-900 rounded p-3">
+                  <div className="text-zinc-300 font-medium">TrendIndicator</div>
+                  <div className="text-zinc-500 text-xs mt-1">Shows percentage change with up/down arrow and color coding</div>
+                </div>
+                <div className="bg-zinc-900 rounded p-3">
+                  <div className="text-zinc-300 font-medium">StatusBadge</div>
+                  <div className="text-zinc-500 text-xs mt-1">Colored badge indicating healthy, warning, or critical status</div>
+                </div>
+                <div className="bg-zinc-900 rounded p-3">
+                  <div className="text-zinc-300 font-medium">TimeRangeSelector</div>
+                  <div className="text-zinc-500 text-xs mt-1">Toggle between different time periods</div>
+                </div>
+              </div>
+            </div>
+          </Accordion>
+
+          <Accordion title="About this Project">
+            <div className="space-y-4 text-sm">
+              <p className="text-zinc-400">
+                A data visualization dashboard demonstrating reusable chart components,
+                responsive layouts, and clean data presentation patterns.
+              </p>
+
+              <div>
+                <h4 className="text-zinc-300 font-medium mb-2">Tech Stack</h4>
+                <div className="flex flex-wrap gap-2">
+                  {['React 19', 'TypeScript', 'Next.js', 'Tailwind CSS', 'SVG Charts'].map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2 py-1 text-xs rounded-full bg-zinc-800 text-zinc-400"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-zinc-300 font-medium mb-2">Features Demonstrated</h4>
+                <ul className="text-zinc-400 space-y-1">
+                  <li className="flex items-start gap-2">
+                    <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                    Composable metric card components
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                    SVG sparkline charts without external libraries
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                    Mock data generation for different time ranges
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                    Accessible color-coded status indicators
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </Accordion>
         </div>
       </div>
     </div>

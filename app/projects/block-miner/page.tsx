@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
+import { Accordion } from '@/app/components/Accordion';
 
 interface Block {
   id: string;
@@ -111,152 +113,304 @@ export default function BlockMinerPage() {
   }, [currentAutoMiner.dps, mineBlock]);
 
   return (
-    <main className="min-h-screen bg-[#1a1a2e] p-4 select-none">
-      <div className="max-w-md mx-auto">
-        <h1 className="text-2xl font-bold text-white text-center mb-2 font-mono">
-          ⛏️ Block Miner
-        </h1>
-
-        {/* Stats */}
-        <div className="flex justify-between text-sm mb-4 px-2">
-          <span className="text-yellow-400 font-mono">💰 {coins}</span>
-          <span className="text-gray-400 font-mono">Mined: {totalMined}</span>
-        </div>
-
-        {/* Block Area */}
-        <div
-          className={`relative w-48 h-48 mx-auto mb-6 cursor-pointer ${isShaking ? 'animate-shake' : ''}`}
-          onClick={handleClick}
-          style={{
-            imageRendering: 'pixelated',
-          }}
+    <div className="min-h-screen bg-[#1a1a2e]">
+      {/* Back link */}
+      <div className="max-w-md mx-auto pt-4 px-4">
+        <Link
+          href="/projects"
+          className="text-zinc-500 hover:text-zinc-300 text-sm transition-colors"
         >
-          {/* Block */}
+          &larr; Back to Projects
+        </Link>
+      </div>
+
+      {/* Game Area */}
+      <main className="p-4 select-none">
+        <div className="max-w-md mx-auto">
+          <h1 className="text-2xl font-bold text-white text-center mb-2 font-mono">
+            Block Miner
+          </h1>
+
+          {/* Stats */}
+          <div className="flex justify-between text-sm mb-4 px-2">
+            <span className="text-yellow-400 font-mono">Coins: {coins}</span>
+            <span className="text-gray-400 font-mono">Mined: {totalMined}</span>
+          </div>
+
+          {/* Block Area */}
           <div
-            className="w-full h-full rounded-sm border-4 transition-colors"
+            className={`relative w-48 h-48 mx-auto mb-6 cursor-pointer ${isShaking ? 'animate-shake' : ''}`}
+            onClick={handleClick}
             style={{
-              backgroundColor: currentBlock.color,
-              borderColor: currentBlock.crackColor,
-              boxShadow: `inset -8px -8px 0 ${currentBlock.crackColor}, inset 8px 8px 0 rgba(255,255,255,0.2)`,
+              imageRendering: 'pixelated',
             }}
           >
-            {/* Crack overlay */}
-            {damagePercent > 20 && (
+            {/* Block */}
+            <div
+              className="w-full h-full rounded-sm border-4 transition-colors"
+              style={{
+                backgroundColor: currentBlock.color,
+                borderColor: currentBlock.crackColor,
+                boxShadow: `inset -8px -8px 0 ${currentBlock.crackColor}, inset 8px 8px 0 rgba(255,255,255,0.2)`,
+              }}
+            >
+              {/* Crack overlay */}
+              {damagePercent > 20 && (
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: `repeating-linear-gradient(
+                      45deg,
+                      transparent,
+                      transparent 10px,
+                      ${currentBlock.crackColor}40 10px,
+                      ${currentBlock.crackColor}40 ${Math.min(damagePercent / 10, 12)}px
+                    )`,
+                    opacity: damagePercent / 100,
+                  }}
+                />
+              )}
+
+              {/* Pixel texture */}
               <div
-                className="absolute inset-0 pointer-events-none"
+                className="absolute inset-2 opacity-20"
                 style={{
-                  background: `repeating-linear-gradient(
-                    45deg,
-                    transparent,
-                    transparent 10px,
-                    ${currentBlock.crackColor}40 10px,
-                    ${currentBlock.crackColor}40 ${Math.min(damagePercent / 10, 12)}px
-                  )`,
-                  opacity: damagePercent / 100,
+                  backgroundImage: `
+                    linear-gradient(45deg, #000 25%, transparent 25%),
+                    linear-gradient(-45deg, #000 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, #000 75%),
+                    linear-gradient(-45deg, transparent 75%, #000 75%)
+                  `,
+                  backgroundSize: '16px 16px',
+                  backgroundPosition: '0 0, 0 8px, 8px -8px, -8px 0px',
                 }}
               />
-            )}
-
-            {/* Pixel texture */}
-            <div
-              className="absolute inset-2 opacity-20"
-              style={{
-                backgroundImage: `
-                  linear-gradient(45deg, #000 25%, transparent 25%),
-                  linear-gradient(-45deg, #000 25%, transparent 25%),
-                  linear-gradient(45deg, transparent 75%, #000 75%),
-                  linear-gradient(-45deg, transparent 75%, #000 75%)
-                `,
-                backgroundSize: '16px 16px',
-                backgroundPosition: '0 0, 0 8px, 8px -8px, -8px 0px',
-              }}
-            />
-          </div>
-
-          {/* Click effects */}
-          {clicks.map((click) => (
-            <div
-              key={click.id}
-              className="absolute text-yellow-300 font-bold text-lg pointer-events-none animate-float-up font-mono"
-              style={{ left: click.x, top: click.y }}
-            >
-              -{currentPickaxe.damage}
             </div>
-          ))}
-        </div>
 
-        {/* Block Info */}
-        <div className="text-center mb-6">
-          <p className="text-white font-mono text-lg">{currentBlock.name}</p>
-          <div className="w-48 h-4 bg-gray-700 rounded mx-auto mt-2 overflow-hidden border border-gray-600">
-            <div
-              className="h-full bg-red-500 transition-all duration-100"
-              style={{ width: `${(blockHealth / currentBlock.maxHealth) * 100}%` }}
-            />
+            {/* Click effects */}
+            {clicks.map((click) => (
+              <div
+                key={click.id}
+                className="absolute text-yellow-300 font-bold text-lg pointer-events-none animate-float-up font-mono"
+                style={{ left: click.x, top: click.y }}
+              >
+                -{currentPickaxe.damage}
+              </div>
+            ))}
           </div>
-          <p className="text-gray-400 text-sm mt-1 font-mono">
-            {Math.ceil(blockHealth)} / {currentBlock.maxHealth}
-          </p>
-          <p className="text-yellow-400 text-sm font-mono">+{currentBlock.reward} 💰</p>
-        </div>
 
-        {/* Upgrades */}
-        <div className="space-y-3">
-          {/* Current Equipment */}
-          <div className="bg-[#252542] rounded-lg p-3 text-sm">
-            <p className="text-gray-400 font-mono">Equipped:</p>
-            <p className="text-white font-mono">⛏️ {currentPickaxe.name} ({currentPickaxe.damage} dmg/click)</p>
-            {autoMinerLevel > 0 && (
-              <p className="text-white font-mono">🤖 {currentAutoMiner.name} ({currentAutoMiner.dps} dmg/sec)</p>
+          {/* Block Info */}
+          <div className="text-center mb-6">
+            <p className="text-white font-mono text-lg">{currentBlock.name}</p>
+            <div className="w-48 h-4 bg-gray-700 rounded mx-auto mt-2 overflow-hidden border border-gray-600">
+              <div
+                className="h-full bg-red-500 transition-all duration-100"
+                style={{ width: `${(blockHealth / currentBlock.maxHealth) * 100}%` }}
+              />
+            </div>
+            <p className="text-gray-400 text-sm mt-1 font-mono">
+              {Math.ceil(blockHealth)} / {currentBlock.maxHealth}
+            </p>
+            <p className="text-yellow-400 text-sm font-mono">+{currentBlock.reward} coins</p>
+          </div>
+
+          {/* Upgrades */}
+          <div className="space-y-3">
+            {/* Current Equipment */}
+            <div className="bg-[#252542] rounded-lg p-3 text-sm">
+              <p className="text-gray-400 font-mono">Equipped:</p>
+              <p className="text-white font-mono">{currentPickaxe.name} ({currentPickaxe.damage} dmg/click)</p>
+              {autoMinerLevel > 0 && (
+                <p className="text-white font-mono">{currentAutoMiner.name} ({currentAutoMiner.dps} dmg/sec)</p>
+              )}
+            </div>
+
+            {/* Pickaxe Upgrade */}
+            {nextPickaxe && (
+              <button
+                onClick={buyPickaxe}
+                disabled={coins < nextPickaxe.cost}
+                className={`w-full p-3 rounded-lg font-mono text-left transition-colors ${
+                  coins >= nextPickaxe.cost
+                    ? 'bg-green-700 hover:bg-green-600 text-white'
+                    : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                <div className="flex justify-between items-center">
+                  <span>{nextPickaxe.name}</span>
+                  <span className="text-yellow-400">{nextPickaxe.cost} coins</span>
+                </div>
+                <p className="text-sm opacity-75">{nextPickaxe.damage} damage per click</p>
+              </button>
+            )}
+
+            {/* Auto-Miner Upgrade */}
+            {nextAutoMiner && (
+              <button
+                onClick={buyAutoMiner}
+                disabled={coins < nextAutoMiner.cost}
+                className={`w-full p-3 rounded-lg font-mono text-left transition-colors ${
+                  coins >= nextAutoMiner.cost
+                    ? 'bg-blue-700 hover:bg-blue-600 text-white'
+                    : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                <div className="flex justify-between items-center">
+                  <span>{nextAutoMiner.name}</span>
+                  <span className="text-yellow-400">{nextAutoMiner.cost} coins</span>
+                </div>
+                <p className="text-sm opacity-75">{nextAutoMiner.dps} damage per second</p>
+              </button>
             )}
           </div>
 
-          {/* Pickaxe Upgrade */}
-          {nextPickaxe && (
-            <button
-              onClick={buyPickaxe}
-              disabled={coins < nextPickaxe.cost}
-              className={`w-full p-3 rounded-lg font-mono text-left transition-colors ${
-                coins >= nextPickaxe.cost
-                  ? 'bg-green-700 hover:bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              <div className="flex justify-between items-center">
-                <span>⛏️ {nextPickaxe.name}</span>
-                <span className="text-yellow-400">{nextPickaxe.cost} 💰</span>
-              </div>
-              <p className="text-sm opacity-75">{nextPickaxe.damage} damage per click</p>
-            </button>
-          )}
-
-          {/* Auto-Miner Upgrade */}
-          {nextAutoMiner && (
-            <button
-              onClick={buyAutoMiner}
-              disabled={coins < nextAutoMiner.cost}
-              className={`w-full p-3 rounded-lg font-mono text-left transition-colors ${
-                coins >= nextAutoMiner.cost
-                  ? 'bg-blue-700 hover:bg-blue-600 text-white'
-                  : 'bg-gray-700 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              <div className="flex justify-between items-center">
-                <span>🤖 {nextAutoMiner.name}</span>
-                <span className="text-yellow-400">{nextAutoMiner.cost} 💰</span>
-              </div>
-              <p className="text-sm opacity-75">{nextAutoMiner.dps} damage per second</p>
-            </button>
+          {/* Max level message */}
+          {!nextPickaxe && !nextAutoMiner && (
+            <div className="text-center text-green-400 font-mono mt-4">
+              All upgrades maxed! Keep mining!
+            </div>
           )}
         </div>
+      </main>
 
-        {/* Max level message */}
-        {!nextPickaxe && !nextAutoMiner && (
-          <div className="text-center text-green-400 font-mono mt-4">
-            🎉 All upgrades maxed! Keep mining!
+      {/* About Section - Accordions */}
+      <section className="max-w-md mx-auto px-4 pb-8 mt-8 space-y-3">
+        <Accordion title="How to Play">
+          <ol className="text-sm text-zinc-400 space-y-2 list-decimal list-inside">
+            <li>Click or tap the block to mine it</li>
+            <li>Earn coins when blocks break</li>
+            <li>Buy pickaxe upgrades to deal more damage per click</li>
+            <li>Unlock auto-miners for passive coin generation</li>
+          </ol>
+        </Accordion>
+
+        <Accordion title="Game Mechanics">
+          <div className="space-y-4">
+            <div>
+              <h4 className="text-sm font-medium text-zinc-300 mb-2">Block Types</h4>
+              <p className="text-xs text-zinc-500 mb-2">Blocks cycle through in order of difficulty:</p>
+              <div className="grid grid-cols-3 gap-2 text-xs">
+                {BLOCKS.map((block) => (
+                  <div key={block.id} className="bg-zinc-900 rounded p-2 text-center">
+                    <div
+                      className="w-6 h-6 mx-auto mb-1 rounded-sm"
+                      style={{ backgroundColor: block.color }}
+                    />
+                    <div className="text-zinc-300">{block.name}</div>
+                    <div className="text-zinc-500">{block.maxHealth} HP</div>
+                    <div className="text-yellow-400">+{block.reward}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-medium text-zinc-300 mb-2">Pickaxe Upgrades</h4>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="text-zinc-500 border-b border-zinc-800">
+                      <th className="text-left py-1">Pickaxe</th>
+                      <th className="text-right py-1">Damage</th>
+                      <th className="text-right py-1">Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-zinc-400">
+                    {PICKAXES.map((p) => (
+                      <tr key={p.level} className="border-b border-zinc-800/50">
+                        <td className="py-1">{p.name}</td>
+                        <td className="text-right">{p.damage}</td>
+                        <td className="text-right text-yellow-400">{p.cost || 'Free'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-medium text-zinc-300 mb-2">Auto-Miners</h4>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="text-zinc-500 border-b border-zinc-800">
+                      <th className="text-left py-1">Auto-Miner</th>
+                      <th className="text-right py-1">DPS</th>
+                      <th className="text-right py-1">Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-zinc-400">
+                    {AUTO_MINERS.slice(1).map((a) => (
+                      <tr key={a.level} className="border-b border-zinc-800/50">
+                        <td className="py-1">{a.name}</td>
+                        <td className="text-right">{a.dps}</td>
+                        <td className="text-right text-yellow-400">{a.cost}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
+        </Accordion>
+
+        <Accordion title="About this Project">
+          <div className="space-y-4 text-sm">
+            <p className="text-zinc-400">
+              A Minecraft-inspired idle/clicker game built to demonstrate React state management,
+              game loops, and satisfying UI feedback.
+            </p>
+
+            <div>
+              <h4 className="text-zinc-300 font-medium mb-2">Tech Stack</h4>
+              <div className="flex flex-wrap gap-2">
+                {['React 19', 'TypeScript', 'Next.js', 'CSS Animations'].map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2 py-1 text-xs rounded-full bg-zinc-800 text-zinc-400"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-zinc-300 font-medium mb-2">Features Demonstrated</h4>
+              <ul className="text-zinc-400 space-y-1">
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                  Idle/clicker game mechanics with upgrades
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                  Pixel art aesthetic with satisfying animations
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                  Mobile-friendly tap controls
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-emerald-400 mt-0.5">&#8226;</span>
+                  useCallback and useEffect for game loop
+                </li>
+              </ul>
+            </div>
+
+            <p className="text-zinc-500 text-xs">
+              View source on{' '}
+              <a
+                href="https://github.com/LFilip/lfilip-portfolio/blob/main/app/projects/block-miner/README.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-emerald-400 hover:underline"
+              >
+                GitHub
+              </a>
+            </p>
+          </div>
+        </Accordion>
+      </section>
 
       <style jsx>{`
         @keyframes float-up {
@@ -281,6 +435,6 @@ export default function BlockMinerPage() {
           animation: shake 0.1s ease-in-out;
         }
       `}</style>
-    </main>
+    </div>
   );
 }
