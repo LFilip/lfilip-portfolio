@@ -7,7 +7,7 @@ const mockToggleClicked = jest.fn();
 jest.mock("../hooks/useProgress", () => ({
   useProgress: () => ({
     clickedProjects: [],
-    totalProjects: 7,
+    totalProjects: 8,
     progress: 0,
     toggleClicked: mockToggleClicked,
     resetProgress: jest.fn(),
@@ -112,6 +112,6 @@ describe("ProjectsPage integration", () => {
     const projectCards = screen.getAllByRole("button").filter((btn) =>
       btn.hasAttribute("aria-pressed")
     );
-    expect(projectCards.length).toBe(7);
+    expect(projectCards.length).toBe(8);
   });
 });
