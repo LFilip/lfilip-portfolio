@@ -29,6 +29,20 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "stack-jump",
+    title: "Stack Jump",
+    description:
+      "Timing-based platform game. Hold to build your stack, release to walk diagonally across gaps. Land on platforms to score!",
+    techStack: ["React 19", "TypeScript", "Next.js", "Tailwind CSS"],
+    category: "game",
+    demoPath: "/projects/stack-jump",
+    highlights: [
+      "Hold-to-charge input mechanics",
+      "requestAnimationFrame game loop",
+      "Touch and keyboard controls",
+    ],
+  },
+  {
     id: "block-miner",
     title: "Block Miner",
     description:
