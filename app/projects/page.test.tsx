@@ -112,6 +112,6 @@ describe("ProjectsPage integration", () => {
     const projectCards = screen.getAllByRole("button").filter((btn) =>
       btn.hasAttribute("aria-pressed")
     );
-    expect(projectCards.length).toBe(8);
+    expect(projectCards.length).toBe(9);
   });
 });
