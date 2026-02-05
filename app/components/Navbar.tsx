@@ -39,6 +39,14 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {process.env.NODE_ENV === "development" && (
+              <Link
+                href="/valentines"
+                className="text-rose-400 hover:text-rose-300 text-sm font-medium transition-colors"
+              >
+                Valentines
+              </Link>
+            )}
           </div>
 
           <div className="hidden sm:block">
@@ -93,6 +101,15 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              {process.env.NODE_ENV === "development" && (
+                <Link
+                  href="/valentines"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-rose-400 hover:text-rose-300 text-sm font-medium transition-colors"
+                >
+                  Valentines
+                </Link>
+              )}
             </div>
             <div className="mt-4 pt-4 border-t border-zinc-800">
               <ProgressIndicator />

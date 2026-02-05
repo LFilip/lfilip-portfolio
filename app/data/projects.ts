@@ -14,6 +14,35 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "nudge-sms-reminders",
+    title: "Nudge - SMS Reminder System",
+    description:
+      "Interactive demo of an SMS-based reminder system with escalating notifications. Features a D&D-style 'Table of Many Nudges' with sassy messages that get increasingly dramatic.",
+    techStack: ["React 19", "TypeScript", "Next.js", "Zustand", "Tailwind CSS"],
+    category: "demo",
+    github: "https://github.com/LFilip/lfilip-portfolio/blob/main/app/projects/(demos)/nudge/README.md",
+    demoPath: "/projects/nudge",
+    highlights: [
+      "Escalating sassy messages across 5 drama tiers",
+      "Interactive SMS phone mockup simulation",
+      "Full CRUD with streak tracking and statistics",
+    ],
+  },
+  {
+    id: "stack-jump",
+    title: "Stack Jump",
+    description:
+      "Timing-based platform game. Hold to build your stack, release to walk diagonally across gaps. Land on platforms to score!",
+    techStack: ["React 19", "TypeScript", "Next.js", "Tailwind CSS"],
+    category: "game",
+    demoPath: "/projects/stack-jump",
+    highlights: [
+      "Hold-to-charge input mechanics",
+      "requestAnimationFrame game loop",
+      "Touch and keyboard controls",
+    ],
+  },
+  {
     id: "block-miner",
     title: "Block Miner",
     description:
