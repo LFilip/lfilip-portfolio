@@ -58,6 +58,7 @@ export function useGameLoop(): [GameState, GameActions] {
 
   // Hydrate on client mount - this fixes the hydration mismatch
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setGame(createInitialState());
   }, []);
 

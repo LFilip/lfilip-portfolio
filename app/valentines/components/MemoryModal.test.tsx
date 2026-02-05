@@ -7,6 +7,7 @@ describe("MemoryModal", () => {
   const defaultProps = {
     title: "Dollywood",
     description: "Riding rollercoasters with Maddox",
+    emoji: "📖",
     onClose: mockOnClose,
   };
 

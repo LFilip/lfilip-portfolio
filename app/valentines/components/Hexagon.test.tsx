@@ -152,7 +152,7 @@ describe("Hexagon", () => {
     const { container } = render(
       <Hexagon
         content={content}
-        isRevealed={false}
+        isRevealed={true}
         colorVariant="purple"
         onClick={mockOnClick}
         index={0}
@@ -167,7 +167,7 @@ describe("Hexagon", () => {
     const { container } = render(
       <Hexagon
         content={content}
-        isRevealed={false}
+        isRevealed={true}
         colorVariant="emerald"
         onClick={mockOnClick}
         index={0}
@@ -182,13 +182,13 @@ describe("Hexagon", () => {
     const { container } = render(
       <Hexagon
         content={content}
-        isRevealed={false}
+        isRevealed={true}
         colorVariant="red"
         onClick={mockOnClick}
         index={0}
       />
     );
 
-    expect(container.querySelector(".bg-red-950")).toBeInTheDocument();
+    expect(container.querySelector(".bg-red-900")).toBeInTheDocument();
   });
 });

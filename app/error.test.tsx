@@ -3,9 +3,7 @@
  */
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-// Import the component dynamically to avoid hook issues
-const ErrorComponent = require('./error').default;
+import ErrorComponent from './error';
 
 describe('Error Page', () => {
   const mockError = new Error('Test error message');

@@ -43,6 +43,8 @@ export function useProgress() {
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    // Hydration pattern: set initial state from localStorage after mount
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsHydrated(true);
     setClickedProjects(getStoredProjects());
 

@@ -27,6 +27,8 @@ export function ReminderForm({ reminder, onSave, onCancel }: ReminderFormProps) 
 
   useEffect(() => {
     if (reminder) {
+      // Sync form state from props when editing an existing reminder
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName(reminder.name);
       setDescription(reminder.description);
       setScheduleTime(reminder.scheduleTime);
