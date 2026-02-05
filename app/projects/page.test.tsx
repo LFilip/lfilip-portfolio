@@ -83,17 +83,18 @@ describe("ProjectsPage", () => {
   it("should render filter buttons", () => {
     render(<ProjectsPage />);
 
-    expect(screen.getByRole("button", { name: /All/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Professional/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Games/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Demos/i })).toBeInTheDocument();
+    // Filter buttons contain count in parentheses, use that to distinguish from project cards
+    expect(screen.getByRole("button", { name: /All \(\d+\)/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Professional \(\d+\)/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Games \(\d+\)/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Demos \(\d+\)/i })).toBeInTheDocument();
   });
 
   it("should filter projects when category is clicked", () => {
     render(<ProjectsPage />);
 
-    // Click Games filter
-    fireEvent.click(screen.getByRole("button", { name: /Games/i }));
+    // Click Games filter (use count pattern to distinguish from project cards)
+    fireEvent.click(screen.getByRole("button", { name: /Games \(\d+\)/i }));
 
     // Should show games
     expect(screen.getByText("Block Miner")).toBeInTheDocument();

@@ -89,5 +89,13 @@ describe('Navbar Component', () => {
     const logoLink = screen.getByRole('link', { name: 'Louis Filip' });
     expect(logoLink).toHaveAttribute('href', '/');
   });
+
+  // Note: The Valentines link is rendered conditionally based on NODE_ENV === 'development'
+  // In test environment (NODE_ENV === 'test'), the link is not rendered.
+  // This behavior is intentional - the link only appears in development mode.
+  it('should not render Valentines link in test/production environment', () => {
+    render(<Navbar />);
+    expect(screen.queryByRole('link', { name: 'Valentines' })).not.toBeInTheDocument();
+  });
 });
 
