@@ -56,4 +56,25 @@ describe("ControlButton", () => {
     render(<ControlButton {...defaultProps} />);
     expect(screen.getByRole("button")).toHaveClass("bg-emerald-600");
   });
+
+  it("calls onStartHold on touch start when not game over", () => {
+    render(<ControlButton {...defaultProps} />);
+    fireEvent.touchStart(screen.getByRole("button"));
+    expect(defaultProps.onStartHold).toHaveBeenCalledTimes(1);
+    expect(defaultProps.onReset).not.toHaveBeenCalled();
+  });
+
+  it("calls onReset on touch start when game is over", () => {
+    render(<ControlButton {...defaultProps} gameOver={true} />);
+    // Touch events bypass the disabled attribute
+    fireEvent.touchStart(screen.getByRole("button"));
+    expect(defaultProps.onReset).toHaveBeenCalledTimes(1);
+    expect(defaultProps.onStartHold).not.toHaveBeenCalled();
+  });
+
+  it("calls onReleaseHold on touch end", () => {
+    render(<ControlButton {...defaultProps} />);
+    fireEvent.touchEnd(screen.getByRole("button"));
+    expect(defaultProps.onReleaseHold).toHaveBeenCalledTimes(1);
+  });
 });

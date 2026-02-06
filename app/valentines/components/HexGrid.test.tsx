@@ -7,9 +7,11 @@ describe("HexGrid", () => {
   const mockHexagons: HexContent[] = [
     { type: "heart" },
     { type: "emoji", emoji: "💜" },
-    { type: "memory", title: "Test Memory", description: "Test description" },
-    { type: "heart" },
-    { type: "emoji", emoji: "🎢" },
+    { type: "memory", title: "Test Memory", description: "Test description", emoji: "🎬" },
+    { type: "vows", title: "Test Vows", content: "I promise to love you", emoji: "💒" },
+    { type: "video", videoId: "abc123", title: "Our Song", emoji: "🎵" },
+    { type: "milestone", date: "October 2020", label: "Wedding Day", emoji: "💍" },
+    { type: "note", message: "You are amazing", emoji: "💌" },
     { type: "heart" },
   ];
 
@@ -84,14 +86,54 @@ describe("HexGrid", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
+  it("opens vows modal when vows hexagon is clicked", async () => {
+    const user = userEvent.setup();
+    render(<HexGrid hexagons={mockHexagons} />);
+
+    const vowsHexagon = screen.getByTestId("hexagon-3");
+    await user.click(vowsHexagon);
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByText("Test Vows")).toBeInTheDocument();
+  });
+
+  it("opens video modal when video hexagon is clicked", async () => {
+    const user = userEvent.setup();
+    render(<HexGrid hexagons={mockHexagons} />);
+
+    const videoHexagon = screen.getByTestId("hexagon-4");
+    await user.click(videoHexagon);
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByText("Our Song")).toBeInTheDocument();
+  });
+
+  it("opens milestone modal when milestone hexagon is clicked", async () => {
+    const user = userEvent.setup();
+    render(<HexGrid hexagons={mockHexagons} />);
+
+    const milestoneHexagon = screen.getByTestId("hexagon-5");
+    await user.click(milestoneHexagon);
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByText("Wedding Day")).toBeInTheDocument();
+  });
+
+  it("opens note modal when note hexagon is clicked", async () => {
+    const user = userEvent.setup();
+    render(<HexGrid hexagons={mockHexagons} />);
+
+    const noteHexagon = screen.getByTestId("hexagon-6");
+    await user.click(noteHexagon);
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByText("You are amazing")).toBeInTheDocument();
+  });
+
   it("cycles through color variants between hexagons", () => {
     const { container } = render(<HexGrid hexagons={mockHexagons} />);
 
-    // Check that different unrevealed color variants are used
-    // Unrevealed hexes use these classes with opacity modifiers
     const allHexButtons = container.querySelectorAll("button[data-testid^='hexagon-']");
-
-    // At least some hexagons should be present
     expect(allHexButtons.length).toBeGreaterThan(0);
   });
 
@@ -112,5 +154,26 @@ describe("HexGrid", () => {
     // Should still be revealed
     expect(screen.getByText("💜")).toBeInTheDocument();
     expect(screen.getAllByText("?")).toHaveLength(mockHexagons.length - 1);
+  });
+
+  it("does not open modal during drag", async () => {
+    const user = userEvent.setup();
+    render(<HexGrid hexagons={mockHexagons} />);
+
+    const grid = screen.getByTestId("hex-grid");
+
+    // Simulate a drag (mousedown, move >5px, mouseup)
+    await user.pointer([
+      { keys: "[MouseLeft>]", target: grid, coords: { x: 0, y: 0 } },
+      { coords: { x: 50, y: 50 } },
+      { keys: "[/MouseLeft]" },
+    ]);
+
+    // Click a hexagon right after drag
+    const hexagon = screen.getByTestId("hexagon-2");
+    await user.click(hexagon);
+
+    // Modal should open on this fresh click (hasDragged resets)
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 });

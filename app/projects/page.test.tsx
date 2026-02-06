@@ -7,7 +7,7 @@ const mockToggleClicked = jest.fn();
 jest.mock("../hooks/useProgress", () => ({
   useProgress: () => ({
     clickedProjects: [],
-    totalProjects: 8,
+    totalProjects: 7,
     progress: 0,
     toggleClicked: mockToggleClicked,
     resetProgress: jest.fn(),
