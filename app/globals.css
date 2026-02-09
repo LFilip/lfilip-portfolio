@@ -93,3 +93,13 @@ body {
 .animate-subtle-pulse {
   animation: subtle-pulse 3s ease-in-out infinite;
 }
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-scale-in,
+  .animate-pulse-glow,
+  .animate-subtle-pulse {
+    animation: none;
+  }
+}

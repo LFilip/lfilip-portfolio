@@ -14,7 +14,7 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
           </h3>
           <p className="text-emerald-400 font-medium">{experience.company}</p>
         </div>
-        <div className="text-sm text-zinc-500 mt-1 sm:mt-0 sm:text-right">
+        <div className="text-sm text-zinc-400 mt-1 sm:mt-0 sm:text-right">
           <p>{experience.location}</p>
           <p>
             {experience.startDate} – {experience.endDate}

@@ -38,7 +38,7 @@ export default function Home() {
               {education.degree}
             </h3>
             <p className="text-emerald-400 font-medium">{education.school}</p>
-            <div className="text-sm text-zinc-500 mt-1">
+            <div className="text-sm text-zinc-400 mt-1">
               <p>
                 {education.location} | {education.graduationDate}
               </p>
