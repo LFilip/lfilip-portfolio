@@ -3,7 +3,7 @@
 import { useState } from "react";
 import ProjectCard from "../components/ProjectCard";
 import { projects, ProjectCategory } from "../data/projects";
-import { useProgress, ProjectId } from "../hooks/useProgress";
+import { useProgress } from "../hooks/useProgress";
 
 const CATEGORY_LABELS: Record<ProjectCategory | "all", string> = {
   all: "All",
@@ -58,8 +58,8 @@ export default function ProjectsPage() {
             <ProjectCard
               key={project.id}
               project={project}
-              isClicked={clickedProjects.includes(project.id as ProjectId)}
-              onProjectClick={() => toggleClicked(project.id as ProjectId)}
+              isClicked={clickedProjects.includes(project.id)}
+              onProjectClick={() => toggleClicked(project.id)}
             />
           ))}
         </div>

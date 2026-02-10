@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { useProgress, TRACKED_PROJECTS, ProjectId } from "./useProgress";
+import { useProgress } from "./useProgress";
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -30,19 +30,14 @@ describe("useProgress Hook", () => {
     const { result } = renderHook(() => useProgress());
 
     expect(result.current.clickedProjects).toEqual([]);
-    expect(result.current.totalProjects).toBe(7);
+    expect(result.current.totalProjects).toBe(9);
     expect(result.current.progress).toBe(0);
   });
 
-  it("should have 7 tracked projects", () => {
-    expect(Object.keys(TRACKED_PROJECTS)).toHaveLength(7);
-    expect(TRACKED_PROJECTS["block-miner"]).toBeDefined();
-    expect(TRACKED_PROJECTS["package-sorter"]).toBeDefined();
-    expect(TRACKED_PROJECTS["localpet-virtual-pet-game"]).toBeDefined();
-    expect(TRACKED_PROJECTS["portfolio-website"]).toBeDefined();
-    expect(TRACKED_PROJECTS["government-application-dashboard"]).toBeDefined();
-    expect(TRACKED_PROJECTS["user-analytics-dashboard"]).toBeDefined();
-    expect(TRACKED_PROJECTS["3d-browser-based-map"]).toBeDefined();
+  it("should derive totalProjects from projects data", () => {
+    const { result } = renderHook(() => useProgress());
+
+    expect(result.current.totalProjects).toBe(9);
   });
 
   it("should toggle a project as clicked", () => {
@@ -55,7 +50,7 @@ describe("useProgress Hook", () => {
     expect(result.current.clickedProjects).toContain(
       "localpet-virtual-pet-game"
     );
-    expect(result.current.progress).toBe(14);
+    expect(result.current.progress).toBe(11);
   });
 
   it("should toggle off a clicked project", () => {
@@ -79,17 +74,17 @@ describe("useProgress Hook", () => {
     act(() => {
       result.current.toggleClicked("localpet-virtual-pet-game");
     });
-    expect(result.current.progress).toBe(14);
+    expect(result.current.progress).toBe(11);
 
     act(() => {
       result.current.toggleClicked("portfolio-website");
     });
-    expect(result.current.progress).toBe(29);
+    expect(result.current.progress).toBe(22);
 
     act(() => {
       result.current.toggleClicked("government-application-dashboard");
     });
-    expect(result.current.progress).toBe(43);
+    expect(result.current.progress).toBe(33);
   });
 
   it("should persist clicked projects to localStorage", () => {
@@ -127,7 +122,7 @@ describe("useProgress Hook", () => {
   });
 
   it("should load clicked projects from localStorage on mount", () => {
-    const storedProjects: ProjectId[] = [
+    const storedProjects: string[] = [
       "localpet-virtual-pet-game",
       "portfolio-website",
     ];
@@ -136,6 +131,6 @@ describe("useProgress Hook", () => {
     const { result } = renderHook(() => useProgress());
 
     expect(result.current.clickedProjects).toEqual(storedProjects);
-    expect(result.current.progress).toBe(29);
+    expect(result.current.progress).toBe(22);
   });
 });

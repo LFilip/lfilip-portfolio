@@ -1,33 +1,22 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { projects } from "../data/projects";
 
 const STORAGE_KEY = "portfolio-clicked-projects";
 const SYNC_EVENT = "portfolio-progress-sync";
 
-export const TRACKED_PROJECTS = {
-  "block-miner": { label: "Block Miner" },
-  "package-sorter": { label: "Package Sorter" },
-  "localpet-virtual-pet-game": { label: "LocalPet" },
-  "portfolio-website": { label: "Portfolio" },
-  "government-application-dashboard": { label: "Gov Dashboard" },
-  "user-analytics-dashboard": { label: "Analytics" },
-  "3d-browser-based-map": { label: "3D Map" },
-} as const;
-
-export type ProjectId = keyof typeof TRACKED_PROJECTS;
-
 interface ProgressState {
-  clickedProjects: ProjectId[];
+  clickedProjects: string[];
   totalProjects: number;
   progress: number;
 }
 
-function getStoredProjects(): ProjectId[] {
+function getStoredProjects(): string[] {
   if (typeof window === "undefined") return [];
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? (JSON.parse(stored) as ProjectId[]) : [];
+    return stored ? (JSON.parse(stored) as string[]) : [];
   } catch {
     return [];
   }
@@ -39,7 +28,7 @@ function broadcastSync() {
 }
 
 export function useProgress() {
-  const [clickedProjects, setClickedProjects] = useState<ProjectId[]>([]);
+  const [clickedProjects, setClickedProjects] = useState<string[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
@@ -56,7 +45,7 @@ export function useProgress() {
     return () => window.removeEventListener(SYNC_EVENT, handleSync);
   }, []);
 
-  const toggleClicked = useCallback((projectId: ProjectId) => {
+  const toggleClicked = useCallback((projectId: string) => {
     setClickedProjects((current) => {
       const updated = current.includes(projectId)
         ? current.filter((id) => id !== projectId)
@@ -73,7 +62,7 @@ export function useProgress() {
     broadcastSync();
   }, []);
 
-  const totalProjects = Object.keys(TRACKED_PROJECTS).length;
+  const totalProjects = projects.length;
   const progress = isHydrated
     ? Math.round((clickedProjects.length / totalProjects) * 100)
     : 0;

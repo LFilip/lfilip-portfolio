@@ -149,7 +149,7 @@ export default function ProjectCard({
       </div>
 
       {project.highlights && (
-        <ul className="text-sm text-zinc-500 space-y-1">
+        <ul className="text-sm text-zinc-400 space-y-1">
           {project.highlights.map((highlight, index) => (
             <li key={index} className="flex items-start">
               <span className="text-emerald-400 mr-2">-</span>

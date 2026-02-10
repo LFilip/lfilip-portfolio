@@ -7,13 +7,12 @@ const mockToggleClicked = jest.fn();
 jest.mock("../hooks/useProgress", () => ({
   useProgress: () => ({
     clickedProjects: [],
-    totalProjects: 7,
+    totalProjects: 9,
     progress: 0,
     toggleClicked: mockToggleClicked,
     resetProgress: jest.fn(),
     isHydrated: true,
   }),
-  ProjectId: {} as Record<string, string>,
 }));
 
 describe("ProjectsPage", () => {
@@ -53,9 +52,11 @@ describe("ProjectsPage", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render all 7 projects", () => {
+  it("should render all 9 projects", () => {
     render(<ProjectsPage />);
 
+    expect(screen.getByText("Nudge - SMS Reminder System")).toBeInTheDocument();
+    expect(screen.getByText("Stack Jump")).toBeInTheDocument();
     expect(screen.getByText("Block Miner")).toBeInTheDocument();
     expect(screen.getByText("Package Sorting System")).toBeInTheDocument();
     expect(screen.getByText("LocalPet - Virtual Pet Game")).toBeInTheDocument();
