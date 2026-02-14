@@ -5,10 +5,11 @@ import Hexagon, { ColorVariant } from "./Hexagon";
 import MemoryModal from "./MemoryModal";
 import VowsModal from "./VowsModal";
 import VideoModal from "./VideoModal";
-import { HexContent } from "../data/memories";
+import { HexContent, getClickableIndices } from "../data/memories";
 
 interface HexGridProps {
   hexagons: HexContent[];
+  onAllRevealed?: () => void;
 }
 
 function getColumns(width: number): number {
@@ -39,10 +40,14 @@ type ModalState =
   | { type: "note"; message: string; emoji: string }
   | null;
 
-export default function HexGrid({ hexagons }: HexGridProps) {
+export default function HexGrid({ hexagons, onAllRevealed }: HexGridProps) {
   const [revealedHexes, setRevealedHexes] = useState<Set<number>>(new Set());
   const [modalState, setModalState] = useState<ModalState>(null);
   const [cols, setCols] = useState(getInitialColumns);
+  const hasTriggeredFinale = useRef(false);
+
+  const clickableIndices = getClickableIndices(hexagons);
+  const remaining = clickableIndices.filter((i) => !revealedHexes.has(i)).length;
 
   // Drag-to-pan state
   const containerRef = useRef<HTMLDivElement>(null);
@@ -59,6 +64,15 @@ export default function HexGrid({ hexagons }: HexGridProps) {
     window.addEventListener("resize", updateCols);
     return () => window.removeEventListener("resize", updateCols);
   }, []);
+
+  // Fire onAllRevealed when all clickable hexes are revealed
+  useEffect(() => {
+    if (remaining === 0 && clickableIndices.length > 0 && !hasTriggeredFinale.current && onAllRevealed) {
+      hasTriggeredFinale.current = true;
+      const timer = setTimeout(onAllRevealed, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [remaining, clickableIndices.length, onAllRevealed]);
 
   // Drag-to-pan handlers
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -296,6 +310,13 @@ export default function HexGrid({ hexagons }: HexGridProps) {
           })}
         </div>
       ))}
+
+      {/* Progress indicator - only shows near the end */}
+      {remaining > 0 && remaining <= 5 && (
+        <p className="text-center text-zinc-500 italic text-sm mt-4 animate-fade-in" data-testid="progress-indicator">
+          {remaining} {remaining === 1 ? "memory" : "memories"} left to discover...
+        </p>
+      )}
 
       {/* Modals */}
       {renderModal()}

@@ -91,4 +91,49 @@ describe("ValentinesPage", () => {
     expect(screen.getByTestId("quilt-container")).toBeInTheDocument();
     expect(screen.getByTestId("hex-grid")).toBeInTheDocument();
   });
+
+  it("renders ValentineFinale when phase is finale", async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    render(<ValentinesPage />);
+
+    // Navigate to quilt phase
+    const seal = screen.getByRole("button", { name: "Open envelope" });
+    await user.click(seal);
+
+    act(() => {
+      jest.advanceTimersByTime(2500);
+    });
+
+    const skipButton = screen.getByRole("button", { name: "Skip to memory quilt" });
+    await user.click(skipButton);
+
+    act(() => {
+      jest.advanceTimersByTime(900);
+    });
+
+    // Click all clickable hexagons to trigger finale
+    const hexGrid = screen.getByTestId("hex-grid");
+    expect(hexGrid).toBeInTheDocument();
+
+    // Click all 32 hexagons (clickable ones will count, non-clickable are harmless to click)
+    for (let i = 0; i < 32; i++) {
+      const hex = screen.queryByTestId(`hexagon-${i}`);
+      if (hex) {
+        await user.click(hex);
+        // Close any modal that opens
+        const closeBtn = screen.queryByLabelText("Close memory") || screen.queryByLabelText("Close vows") || screen.queryByLabelText("Close video");
+        if (closeBtn) {
+          await user.click(closeBtn);
+        }
+      }
+    }
+
+    // Advance past the 600ms delay for onAllRevealed
+    act(() => {
+      jest.advanceTimersByTime(700);
+    });
+
+    // Finale should be rendered
+    expect(screen.getByTestId("valentine-finale")).toBeInTheDocument();
+  });
 });

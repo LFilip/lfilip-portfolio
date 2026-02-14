@@ -1,3 +1,14 @@
+export const CLICKABLE_TYPES = ["memory", "milestone", "note", "video", "vows"] as const;
+
+export function getClickableIndices(hexagons: HexContent[]): number[] {
+  return hexagons.reduce<number[]>((acc, hex, i) => {
+    if ((CLICKABLE_TYPES as readonly string[]).includes(hex.type)) {
+      acc.push(i);
+    }
+    return acc;
+  }, []);
+}
+
 export type HexContent =
   | { type: "memory"; title: string; description: string; emoji: string }
   | { type: "emoji"; emoji: string }
@@ -35,14 +46,14 @@ export const hexContents: HexContent[] = [
   // Row 5
   { type: "memory", title: "Nightly Shows!", description: "Watching TV on the couch together", emoji: "📺" },
   { type: "emoji", emoji: "🪄" },
-  { type: "video", videoId: "KD7xKVx42K0", title: "Our Song", emoji: "🎵" },
+  { type: "video", videoId: "KD7xKVx42K0", title: "Our Vowes", emoji: "🎵" },
   { type: "emoji", emoji: "💜" },
 
   // Row 6
   { type: "note", message: "Forever isn't long enough with you", emoji: "♾️" },
   { type: "memory", title: "Remember the other day?!", description: ";)", emoji: "😏" },
   { type: "emoji", emoji: "🔮" },
-  { type: "milestone", date: "October 2020", label: "Wedding Day!", emoji: "💒" },
+  { type: "milestone", date: "December 2021", label: "Wedding Day!", emoji: "💒" },
 
   // Row 7
   { type: "emoji", emoji: "🎢" },

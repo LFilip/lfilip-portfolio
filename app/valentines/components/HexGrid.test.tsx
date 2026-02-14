@@ -1,9 +1,15 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, within, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import HexGrid from "./HexGrid";
 import { HexContent } from "../data/memories";
 
+jest.useFakeTimers();
+
 describe("HexGrid", () => {
+  afterEach(() => {
+    jest.clearAllTimers();
+  });
+
   const mockHexagons: HexContent[] = [
     { type: "heart" },
     { type: "emoji", emoji: "💜" },
@@ -36,7 +42,7 @@ describe("HexGrid", () => {
   });
 
   it("reveals hexagon when clicked", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<HexGrid hexagons={mockHexagons} />);
 
     const firstHexagon = screen.getByTestId("hexagon-0");
@@ -47,7 +53,7 @@ describe("HexGrid", () => {
   });
 
   it("reveals emoji hexagon with correct emoji", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<HexGrid hexagons={mockHexagons} />);
 
     const emojiHexagon = screen.getByTestId("hexagon-1");
@@ -59,7 +65,7 @@ describe("HexGrid", () => {
   });
 
   it("opens memory modal when memory hexagon is clicked", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<HexGrid hexagons={mockHexagons} />);
 
     const memoryHexagon = screen.getByTestId("hexagon-2");
@@ -71,7 +77,7 @@ describe("HexGrid", () => {
   });
 
   it("closes memory modal when close button is clicked", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<HexGrid hexagons={mockHexagons} />);
 
     // Open modal
@@ -87,7 +93,7 @@ describe("HexGrid", () => {
   });
 
   it("opens vows modal when vows hexagon is clicked", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<HexGrid hexagons={mockHexagons} />);
 
     const vowsHexagon = screen.getByTestId("hexagon-3");
@@ -98,7 +104,7 @@ describe("HexGrid", () => {
   });
 
   it("opens video modal when video hexagon is clicked", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<HexGrid hexagons={mockHexagons} />);
 
     const videoHexagon = screen.getByTestId("hexagon-4");
@@ -109,7 +115,7 @@ describe("HexGrid", () => {
   });
 
   it("opens milestone modal when milestone hexagon is clicked", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<HexGrid hexagons={mockHexagons} />);
 
     const milestoneHexagon = screen.getByTestId("hexagon-5");
@@ -120,7 +126,7 @@ describe("HexGrid", () => {
   });
 
   it("opens note modal when note hexagon is clicked", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<HexGrid hexagons={mockHexagons} />);
 
     const noteHexagon = screen.getByTestId("hexagon-6");
@@ -145,7 +151,7 @@ describe("HexGrid", () => {
   });
 
   it("keeps hexagon revealed after clicking", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<HexGrid hexagons={mockHexagons} />);
 
     const hexagon = screen.getByTestId("hexagon-0");
@@ -157,7 +163,7 @@ describe("HexGrid", () => {
   });
 
   it("does not open modal during drag", async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(<HexGrid hexagons={mockHexagons} />);
 
     const grid = screen.getByTestId("hex-grid");
@@ -175,5 +181,81 @@ describe("HexGrid", () => {
 
     // Modal should open on this fresh click (hasDragged resets)
     expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("fires onAllRevealed when all clickable hexes are revealed", async () => {
+    const onAllRevealed = jest.fn();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+    // Small set: 2 clickable, 1 non-clickable
+    const smallSet: HexContent[] = [
+      { type: "memory", title: "M1", description: "D1", emoji: "🎬" },
+      { type: "heart" },
+      { type: "note", message: "Hi", emoji: "💌" },
+    ];
+
+    render(<HexGrid hexagons={smallSet} onAllRevealed={onAllRevealed} />);
+
+    // Click first clickable hex
+    await user.click(screen.getByTestId("hexagon-0"));
+    // Close modal
+    await user.click(screen.getByLabelText("Close memory"));
+
+    // Click second clickable hex
+    await user.click(screen.getByTestId("hexagon-2"));
+
+    // Advance timer past the 600ms delay
+    act(() => {
+      jest.advanceTimersByTime(700);
+    });
+
+    expect(onAllRevealed).toHaveBeenCalledTimes(1);
+  });
+
+  it("shows progress indicator when 5 or fewer clickable hexes remain", async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+    // 6 clickable hexes
+    const hexes: HexContent[] = [
+      { type: "memory", title: "M1", description: "D1", emoji: "🎬" },
+      { type: "memory", title: "M2", description: "D2", emoji: "🎬" },
+      { type: "memory", title: "M3", description: "D3", emoji: "🎬" },
+      { type: "memory", title: "M4", description: "D4", emoji: "🎬" },
+      { type: "memory", title: "M5", description: "D5", emoji: "🎬" },
+      { type: "memory", title: "M6", description: "D6", emoji: "🎬" },
+    ];
+
+    render(<HexGrid hexagons={hexes} />);
+
+    // Initially 6 remaining — no progress indicator
+    expect(screen.queryByTestId("progress-indicator")).not.toBeInTheDocument();
+
+    // Click one to get to 5 remaining
+    await user.click(screen.getByTestId("hexagon-0"));
+    await user.click(screen.getByLabelText("Close memory"));
+
+    expect(screen.getByTestId("progress-indicator")).toBeInTheDocument();
+    expect(screen.getByTestId("progress-indicator")).toHaveTextContent("5 memories left to discover...");
+  });
+
+  it("hides progress indicator when all clickable hexes are revealed", async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+    const smallSet: HexContent[] = [
+      { type: "memory", title: "M1", description: "D1", emoji: "🎬" },
+      { type: "heart" },
+    ];
+
+    render(<HexGrid hexagons={smallSet} />);
+
+    // 1 clickable remaining — shows indicator
+    expect(screen.getByTestId("progress-indicator")).toBeInTheDocument();
+    expect(screen.getByTestId("progress-indicator")).toHaveTextContent("1 memory left to discover...");
+
+    // Click it
+    await user.click(screen.getByTestId("hexagon-0"));
+
+    // 0 remaining — indicator hidden
+    expect(screen.queryByTestId("progress-indicator")).not.toBeInTheDocument();
   });
 });
